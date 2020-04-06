@@ -20,6 +20,28 @@ open class MarvelObject {
   }
 }
 
+class AvengerTeamObject: MarvelObject {
+    var stones: [StoneObjcet] = []
+    
+    init(name: String, stones: [StoneObjcet]) {
+        self.stones = stones
+        super.init(name)
+        self.name = name
+        
+        self.stones.forEach {
+          $0.ownerTeam = self
+        }
+    }
+}
+
+class StoneObjcet: MarvelObject {
+    //Weak
+    weak var ownerTeam: MarvelObject?
+}
+
 do {
-  MarvelObject("Ironman")
+    let stonesName = ["Space Stone", "Soul Stone", "Reality Stone", "Time Stone", "Power Stone"]
+    var stones = stonesName.map({StoneObjcet($0)})
+    var captainTeam = AvengerTeamObject(name: "Team Captain", stones: stones)
+    print(captainTeam.name, "is alive!")
 }
